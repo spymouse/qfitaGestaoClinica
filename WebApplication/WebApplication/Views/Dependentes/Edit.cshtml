@@ -1,0 +1,48 @@
+﻿@model WebApplication.ViewModel.DependenteVM
+
+@{
+    ViewData["Title"] = "Editando dados de Dependente";
+}
+
+<h4>Editar dados de @Model.Dependente.Nome</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Dependente.ID" />
+            <input hidden="hidden" asp-for="Dependente.FuncionariosID" class="form-control" />
+            <div class="form-group">
+                <label asp-for="Dependente.Cpf" class="control-label"></label>
+                <input asp-for="Dependente.Cpf" class="form-control" />
+                
+            </div>
+            <div class="form-group">
+                <label asp-for="Dependente.Nome" class="control-label"></label>
+                <input asp-for="Dependente.Nome" class="form-control" />
+                
+            </div>
+            <div class="form-group">
+                <label asp-for="Dependente.DataDeNascimiento" class="control-label"></label>
+                <input asp-for="Dependente.DataDeNascimiento" class="form-control" />
+                
+            </div>
+            <div class="form-group">
+                <label asp-for="Dependente.Sexo" class="control-label"></label>
+                <input asp-for="Dependente.Sexo" class="form-control" />
+                
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

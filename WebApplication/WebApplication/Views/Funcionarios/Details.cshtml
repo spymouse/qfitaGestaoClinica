@@ -1,0 +1,179 @@
+﻿@model WebApplication.ViewModel.FuncionarioVM
+
+@{
+    ViewData["Title"] = "Detalhes de Cadastro";
+}
+<script>
+    var row_index;
+    var col_index;
+    var elemento;
+    function Editar(element) {
+        elemento = element;
+        alert("row" + element.closest('tr').rowIndex +
+            " -column" + element.closest('td').cellIndex);
+    }    
+</script>
+
+<h3>Detalhes da Ficha</h3>
+<h4>@Model.Funcionario.Nome Matricula: @Model.Funcionario.ID</h4>
+
+<div>
+    <a class="btn btn-primary" asp-action="E dit" asp-route-id="@Model.Funcionario.ID">Editar</a> |
+    <button class="btn btn-primary" data-toggle="modal" data-target="#ModalDependente">Cadastrar Dependente</button> |
+    <a class="btn btn-primary" asp-action="Index">Back to List</a>
+
+    <div>
+        <h4>Funcionario</h4>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Funcionario.Cpf)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Funcionario.Cpf)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Funcionario.Nome)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Funcionario.Nome)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Funcionario.DataDeNascimiento)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Funcionario.DataDeNascimiento)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Funcionario.Sexo)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Funcionario.Sexo)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Funcionario.Endereco)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Funcionario.Endereco)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Funcionario.Ativo)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Funcionario.Ativo)
+            </dd>
+        </dl>
+    </div>
+
+    <hr />
+
+    <h1>Dependentes</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Dependente.FuncionariosID)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Dependente.Cpf)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Dependente.Nome)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Dependente.DataDeNascimiento)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Dependente.Sexo)
+                </th>
+                <th></th>
+            </tr>
+        </thead>        
+    <tbody>
+        @if (Model.LstDependentes !=null) foreach (var item in Model.LstDependentes)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FuncionariosID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cpf)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nome)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DataDeNascimiento)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Sexo)
+            </td>
+            <td>
+                @*<a asp-controller="Dependentes" asp-action="Edit" asp-route-id="@item.ID">Editar</a> |*@
+                <a asp-controller="Dependentes" asp-action="Delete" asp-route-id="@item.ID">Deletar</a>
+            </td>
+        </tr>
+        }
+
+    </tbody>
+    </table>
+
+</div>
+
+<!-- Modal ModalDependente -->
+<div id="ModalDependente" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Cadastrar Dependente</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-10">
+                        <form asp-action="CreateDependente">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="form-group">
+                                <label asp-for="Dependente.Nome" class="control-label"></label>
+                                <input id="dpNome" asp-for="Dependente.Nome" class="form-control" />
+                                <span asp-validation-for="Dependente.Nome" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="Dependente.Cpf" class="control-label"></label>
+                                <input id="dpCpf" asp-for="Dependente.Cpf" class="form-control" style="width: 12rem;" />
+                                <span asp-validation-for="Dependente.Cpf" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="Dependente.DataDeNascimiento" class="control-label"></label>
+                                <input id="dpDtNasc" asp-for="Dependente.DataDeNascimiento" class="form-control" type="date" style="width: 12rem;" />
+                                <span asp-validation-for="Dependente.DataDeNascimiento" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group" style="width: 10rem;">
+                                <label asp-for="Dependente.Sexo"></label>
+                                <select id="dpSexoSelecionado" asp-for="Dependente.Sexo" class="form-control">
+                                    <option value="Masculino">Masculino</option>
+                                    <option value="Feminino">Feminino</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <input hidden="hidden" asp-for="Dependente.FuncionariosID" value="@Model.Funcionario.ID" />
+                                <input hidden="hidden" name="acao" value="cadastrar" id="acao"/>
+                                <input type="submit" class="btn btn-primary" />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- Modal ModalDependente -->
