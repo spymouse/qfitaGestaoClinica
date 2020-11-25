@@ -14,7 +14,7 @@ namespace WebApplication.DAL
             throw new NotImplementedException();
         }
 
-        public Task<bool> Delete(Cliente value)
+        public bool Delete(int value)
         {
             throw new NotImplementedException();
         }

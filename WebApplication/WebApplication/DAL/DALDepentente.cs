@@ -60,11 +60,12 @@ namespace WebApplication.DAL
             
         }
 
-        public async Task<bool> Delete(Dependente entrada)
+        public bool Delete(int id)
         {
             try
             {
-                this._context.TBDependentes.Remove(entrada);
+                var dependente = _context.TBDependentes.Find(id);
+                this._context.TBDependentes.Remove(dependente);
                 this._context.SaveChanges();
                 return true;
             }

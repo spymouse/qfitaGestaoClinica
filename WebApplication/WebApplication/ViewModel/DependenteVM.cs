@@ -14,7 +14,7 @@ namespace WebApplication.ViewModel
         public Models.Dependente Dependente {get;set;}
         public List<Models.Dependente> LstDependentes { get; set; }
         
-        public BLLDependentes BLLDependentes { get;set; }
+        private BLLDependentes BLLDependentes { get;set; }
 
         public DependenteVM(WebAppContextDB context):base(context)
         {
@@ -32,12 +32,17 @@ namespace WebApplication.ViewModel
 
         public void Delete(int Id)
         {
-            this.BLLDependentes.Delete(Id);
+           this.Dependente = this.BLLDependentes.Delete(Id);
         }
 
         public void Edit(Dependente dependente)
         {
             this.BLLDependentes.Update(dependente);
+        }
+
+        public void FindByID(int id)
+        {
+            this.Dependente= this.BLLDependentes.FindByID(id);
         }
     }
 }

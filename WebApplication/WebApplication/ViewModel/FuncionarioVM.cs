@@ -42,7 +42,7 @@ namespace WebApplication.ViewModel
             return -1;
         }
 
-        public async void GetFuncionarioByID(int id)
+        public void GetFuncionarioByID(int id)
         {
            this.Funcionario = this.bLLFuncionario.GetFuncionarioByID(id); 
         }

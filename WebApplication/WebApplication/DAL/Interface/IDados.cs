@@ -26,7 +26,7 @@ namespace WebApplication.DAL.Interface
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public Task<bool> Delete(T value);
+        public bool Delete(int value);
 
         /// <summary>
         /// Realiza o Consulta na base de dados

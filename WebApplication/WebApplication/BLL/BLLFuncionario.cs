@@ -129,7 +129,8 @@ namespace WebApplication.BLL
                         DataDeNascimiento = funcionario.DataDeNascimiento.Value,
                         Endereco = funcionario.Endereco,
                         Nome = funcionario.Nome,
-                        //Sexo = funcionario.Sexo[0]
+                        Sexo = funcionario.Sexo[0],
+                        ID = funcionario.ID
                     });
 
                     return true;

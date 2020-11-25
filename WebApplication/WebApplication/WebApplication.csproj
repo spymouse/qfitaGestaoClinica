@@ -24,7 +24,6 @@
 
   <ItemGroup>
     <Folder Include="BLL\interface\" />
-    <Folder Include="Data\" />
   </ItemGroup>
 
   <ItemGroup>

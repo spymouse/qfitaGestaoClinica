@@ -77,14 +77,7 @@ namespace WebApplication.Controllers
             {
                 return NotFound();
             }
-
-            this.DependenteVM.Delete(id.Value);
-
-            if (this.DependenteVM.Dependente == null)
-            {
-                return NotFound();
-            }
-
+            this.DependenteVM.FindByID(id.Value);
             return View(this.DependenteVM);
         }
 
@@ -93,8 +86,14 @@ namespace WebApplication.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            
-            return RedirectToAction(nameof(Index));
+            this.DependenteVM.Delete(id);
+
+            if (this.DependenteVM.Dependente == null)
+            {
+                return NotFound();
+            }
+
+            return RedirectToRoute(new { controller = "Funcionarios", action = "Details", id = DependenteVM.Dependente.FuncionariosID });
         }
 
 

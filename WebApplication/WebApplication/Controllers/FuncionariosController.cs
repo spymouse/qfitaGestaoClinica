@@ -12,7 +12,7 @@ namespace WebApplication.Controllers
     public class FuncionariosController : Controller
     {
         private readonly WebAppContextDB _context;
-        public ViewModel.FuncionarioVM FuncionarioVM {get;set;}
+        public ViewModel.FuncionarioVM FuncionarioVM { get; set; }
 
 
         public FuncionariosController(WebAppContextDB context)
@@ -38,7 +38,7 @@ namespace WebApplication.Controllers
 
             this.FuncionarioVM.GetFuncionarioByID(id.Value);
             this.FuncionarioVM.GetDependente(id.Value);
-           
+
             return View(this.FuncionarioVM);
         }
 
@@ -57,8 +57,8 @@ namespace WebApplication.Controllers
         {
             if (ModelState.IsValid)
             {
-               var funcionarioID = this.FuncionarioVM.Create(funcionario);
-                return RedirectToRoute(new { controller = "Dependentes", action = "Index", id = funcionarioID});                
+                var funcionarioID = this.FuncionarioVM.Create(funcionario);
+                return RedirectToRoute(new { controller = "Funcionarios", action = "Details", id = funcionarioID });
             }
             return View(this.FuncionarioVM);
         }
@@ -78,7 +78,7 @@ namespace WebApplication.Controllers
         public async Task<IActionResult> Edit(int id, [Bind("ID,Cpf,Nome,DataDeNascimiento,Sexo,Endereco,Ativo")] Models.Funcionario funcionario)
         {
             if (id != funcionario.ID)
-            {                
+            {
                 return NotFound();
             }
 
@@ -97,7 +97,7 @@ namespace WebApplication.Controllers
             {
                 return NotFound();
             }
-            
+
             this.FuncionarioVM.GetFuncionarioByID(id.Value);
 
             if (this.FuncionarioVM.Funcionario == null)
@@ -124,14 +124,35 @@ namespace WebApplication.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateDependente([Bind("ID,FuncionariosID,Cpf,Nome,DataDeNascimiento,Sexo")] Models.Dependente dependente)
+        public IActionResult CreateDependente([Bind("ID,FuncionariosID,Cpf,Nome,DataDeNascimiento,Sexo")] Models.Dependente dependente)
         {
+            string campo = string.Empty;
             if (ModelState.IsValid)
             {
                 this.FuncionarioVM.CreateDependente(dependente);
                 return RedirectToRoute(new { controller = "Funcionarios", action = "Details", id = dependente.FuncionariosID });
             }
-            return View(this.FuncionarioVM);
+            else
+            {
+                if (ModelState.GetFieldValidationState("dependente.Cpf") == Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid)
+                {
+                    campo += "CPF - ";
+                }
+                if (ModelState.GetFieldValidationState("dependente.Nome") == Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid)
+                {
+                    campo += "Nome - ";
+                }
+                if (ModelState.GetFieldValidationState("dependente.DataDeNascimiento") == Microsoft.AspNetCore.Mvc.ModelBinding.ModelValidationState.Invalid)
+                {
+                    campo += "Data De Nascimiento - ";
+                }
+
+                this.FuncionarioVM.GetFuncionarioByID(dependente.FuncionariosID);
+
+                ViewBag.Message = $"Algo de Errado não está certo campo(s) '{campo.Substring(0, campo.Length - 2)}' :O, verifique as informações inserida no Formulario de Dependentes";
+            }
+
+            return View("Details", this.FuncionarioVM);
         }
     }
 }

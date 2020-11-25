@@ -46,6 +46,21 @@ namespace WebApplication.BLL
 
         }
 
+        internal Models.Dependente FindByID(int id)
+        {
+            var resultado = this.DALDepentente.FindByID(id);
+            return new Models.Dependente()
+            {
+                Cpf = resultado.Cpf,
+                DataDeNascimiento = resultado.DataDeNascimiento,
+                FuncionariosID = resultado.FuncionariosID,
+                ID = resultado.ID,
+                Nome = resultado.Nome,
+                Sexo = resultado.Sexo == 'M' ? "Masculino" : "Feminino",
+                Status = new Models.Status() { Mensagem = "Sucesso" }
+            };
+        }
+
         internal bool Update(Dependente dependente)
         {
             var resultado = this.DALDepentente.FindByID(dependente.ID);
@@ -67,11 +82,14 @@ namespace WebApplication.BLL
             return false;
         }
 
-        internal bool Delete(int id)
+        internal Models.Dependente Delete(int id)
         {
-
-            var resultado = this.DALDepentente.Consult(new Dependente() { ID = id });
-            return this.DALDepentente.Delete(resultado[0]).Result;
+            Models.Dependente resultado = this.FindByID(id);
+            if (this.DALDepentente.Delete(id))
+            {                
+                return resultado;
+            }
+            return null;
         }
 
         public List<Models.Dependente> GetAll()
